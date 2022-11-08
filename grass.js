@@ -1,8 +1,10 @@
-class Grass {
-    constructor(x, y) {
+class LivingCreature {
+    constructor(x, y, index) {
         this.x = x;
         this.y = y;
         this.multiply = 0;
+        this.index = index;
+
         this.directions = [
             [this.x - 1, this.y - 1],
             [this.x, this.y - 1],
@@ -16,35 +18,41 @@ class Grass {
 
     }
 
-    chooseCell(character) {
+    chooseCell(ch) {
+
         var found = [];
+
         for (var i in this.directions) {
             var x = this.directions[i][0];
             var y = this.directions[i][1];
-            if (x >= 0 && x < matrix[0].length && y >= 0 && y < matrix.length)
-                if (matrix[y][x] == character) {
+            if (x >= 0 && x < matrix[0].length && y >= 0 && y < matrix.length) {
+                if (matrix[y][x] == ch) {
                     found.push(this.directions[i]);
                 }
+            }
         }
         return found;
     }
+}
 
-    mul () {
+class Grass extends LivingCreature{
+
+    mul() {
         this.multiply++;
         var emptyCells = this.chooseCell(0);
         var newCell = random(emptyCells);
- 
+
         console.log(emptyCells, newCell);
-        if(newCell && this.multiply >= 8){
+        if (newCell && this.multiply >= 8) {
             var newX = newCell[0];
             var newY = newCell[1];
             matrix[newY][newX] = 1;
- 
+
             var newGrass = new Grass(newX, newY);
             grassArr.push(newGrass);
             this.multiply = 0;
         }
     }
- 
+
 }
 
